@@ -1,0 +1,31 @@
+public class Redlean_Controller {
+	//Je recupere les annee
+    @AuraEnabled
+    public static Map<String, String> getAnnee(){
+        Map<String, String> options = new Map<String, String>();
+        //on recupere les valeurs de picklist
+        Schema.DescribeFieldResult listAnnee = Film__c.Ann_e_de_r_alisation__c.getDescribe();
+        List<Schema.PicklistEntry> pList = listAnnee.getPicklistValues();
+        for (Schema.PicklistEntry p: pList) {
+            options.put(p.getValue(), p.getLabel());
+        }
+        return options;
+    }
+    //Je recupere les genres
+    @AuraEnabled
+    public static Map<String, String> getGenre(){
+        Map<String, String> options = new Map<String, String>();
+        //on recupere les valeurs de picklist
+        Schema.DescribeFieldResult listGenre = Film__c.Genre__c.getDescribe();
+        List<Schema.PicklistEntry> pList = listGenre.getPicklistValues();
+        for (Schema.PicklistEntry p: pList) {
+            options.put(p.getValue(), p.getLabel());
+        }
+        return options;
+    }
+	//insertion de film
+    @AuraEnabled
+    public static void saveFilm(Film__c film) {
+        insert film; 
+    }
+}
