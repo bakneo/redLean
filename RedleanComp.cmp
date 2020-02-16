@@ -1,0 +1,60 @@
+<aura:component controller="Redlean_Controller">
+   
+    <!--les attributs dont jaurais besoins-->
+    <aura:attribute name = "Film" type = "Film__c"
+                    default="{ 'sobjectType': 'Film__c',
+                        'Name': '',
+                        'Genre__c': '',
+                        'Dur_e__c': '',
+                        'Ann_e_de_r_alisation__c': ''}"/>
+    <aura:attribute name = "MapAnnee" type = "Map"/>
+    <aura:attribute name = "MapGenre" type = "Map" />
+    <aura:attribute name = "Mode" type = "String"/>
+    <aura:attribute name="GenresChoisis" type="String"/> 
+
+    <!-- jinitialise -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- mise en place des champs -->
+    <aura:renderif isTrue = "{!v.Mode == 'Edit'}">
+        <div class="Titre">
+       		<ui:outputText value="Détails du Film"/>
+        </div>
+        <div class="inputNom">
+            <lightning:input label="Nom :" class="field" value="{!v.Film.Name}"/>
+        </div>
+        <div class="picklistAnnee">
+            <lightning:select aura:id="listAnnee" value="{!v.Film.Ann_e_de_r_alisation__c}" name="listAnnee" label="Année de réalisation">
+                <option value=""></option>
+                <aura:iteration items="{!v.MapAnnee}" var="ann" indexVar="key">
+                    <option text="{!ann.value}" value="{!ann.key}" selected="{!ann.key==v.Film.Ann_e_de_r_alisation__c}" />
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="picklistGenre">
+            <aura:iteration items="{!v.MapGenre}" var="gen" indexVar="key">
+                <ui:inputCheckbox label="{!gen.value}" change="{!c.setGenre}" value="{!gen.selected}"/>
+            </aura:iteration>
+        </div>
+        <div class="Duree">
+            <lightning:input type="time" name="duration" label="Durée du Film " value="{!v.Film.Dur_e__c}" />
+        </div>
+        <div class="Next">
+            <lightning:button variant="base" label="Next" title="Next" onclick="{!c.handleClick}"/>
+        </div>
+        <aura:set attribute="else">
+          <div class="Recap">
+              Recap :<br></br>
+                  	Nom: <ui:outputText value="{!v.Film.Name}" /><br/>
+                  	Année de réalisation: <ui:outputText value="{!v.Film.Ann_e_de_r_alisation__c}" /><br/>
+                  	    Genre: <aura:iteration items="{!v.Film.Genre__c}" var="gen">
+                             		<ui:outputText value="{!gen}" /><br/>
+     							</aura:iteration>
+                   Durée: <ui:outputText value="{!v.Film.Dur_e__c}" /><br/>
+          </div>
+          <div class="Save">
+            <lightning:button variant="base" label="Save" title="Save" onclick="{!c.insertFilm}"/>
+        </div>
+        </aura:set>
+    </aura:renderif>
+</aura:component>
