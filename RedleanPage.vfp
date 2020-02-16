@@ -1,0 +1,18 @@
+<apex:page showHeader="false" standardStylesheets="false"> 
+ <apex:includeLightning />
+ <div style="width:100%;height:100px;" id="lexContainer"> 
+ <span class="slds-assistive-text">Chargement</span>
+ <div class="slds-spinner__dot-a"></div>
+ <div class="slds-spinner__dot-b"></div> 
+ </div> 
+
+ <script>
+ $Lightning.use("c:RedleanApp", function() {
+ 	$Lightning.createComponent("c:RedleanComp",
+ 								{},
+ 								"lexContainer",
+ 								function(cmp) {
+ 								});
+ 	});
+ </script> 
+</apex:page>
